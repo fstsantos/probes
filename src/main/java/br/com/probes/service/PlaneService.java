@@ -1,6 +1,8 @@
 package br.com.probes.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
@@ -22,6 +24,10 @@ public class PlaneService {
 		Plane plane = new Plane(x, y);
 		planeMap.put(plane.getId().toString(), plane);
 		return plane;
+	}
+
+	public List<Plane> getPlanes() throws InvalidPlaneException {
+		return new ArrayList<Plane>(planeMap.values());
 	}
 
 	public Plane getPlane(String id) throws InvalidPlaneException {
