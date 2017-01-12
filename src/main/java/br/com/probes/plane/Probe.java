@@ -1,13 +1,16 @@
-package br.com.probes;
+package br.com.probes.plane;
 
-import static br.com.probes.Direction.E;
-import static br.com.probes.Direction.N;
-import static br.com.probes.Direction.S;
-import static br.com.probes.Direction.W;
+import static br.com.probes.plane.position.Direction.E;
+import static br.com.probes.plane.position.Direction.N;
+import static br.com.probes.plane.position.Direction.S;
+import static br.com.probes.plane.position.Direction.W;
 
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import br.com.probes.plane.position.Direction;
+import br.com.probes.plane.position.Point;
 
 public class Probe {
 
@@ -17,17 +20,12 @@ public class Probe {
 	
 	private Direction direction;
 
-	public Probe(Point position, Direction direction) {
+	protected Probe(Point position, Direction direction) {
 		this.position = position;
 		this.direction = direction;
 	}
 	
-	public Probe(int x, int y, Direction direction) {
-		this.position = new Point(x, y);
-		this.direction = direction;
-	}
-	
-	public void turnLeft() {
+	protected void turnLeft() {
 		switch(this.direction) {
 		case N:
 			this.direction = W;
@@ -44,7 +42,7 @@ public class Probe {
 		}
 	}
 
-	public void turnRight() {
+	protected void turnRight() {
 		switch(this.direction) {
 		case N:
 			this.direction = E;
@@ -61,7 +59,7 @@ public class Probe {
 		}
 	}
 	
-	public void move() {
+	protected void move() {
 		switch(this.direction) {
 		case N:
 			this.position.incY();
@@ -78,8 +76,30 @@ public class Probe {
 		}
 	}
 
+	protected Point nextMove() {
+		switch(this.direction) {
+		case N:
+			return new Point(this.position.getX(), this.position.getY() + 1);
+		case W:
+			return new Point(this.position.getX() - 1, this.position.getY());
+		case S:
+			return new Point(this.position.getX(), this.position.getY() - 1);
+		case E:
+			return new Point(this.position.getX() + 1, this.position.getY());
+		}
+		return null;
+	}
+
 	public UUID getId() {
 		return id;
+	}
+
+	public Point getPosition() {
+		return position;
+	}
+
+	public Direction getDirection() {
+		return direction;
 	}
 	
 	@Override

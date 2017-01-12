@@ -1,5 +1,7 @@
-package br.com.probes;
+package br.com.probes.plane.position;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Point {
@@ -37,6 +39,19 @@ public class Point {
 		this.y--;
 	}
 	
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(x).append(y).build();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Point)) return false;
+		Point other = (Point) obj;
+		return new EqualsBuilder().append(x, other.getX()).append(y, other.getY()).isEquals();
+		
+	}
+
 	@Override
 	public String toString() {
 	   return ToStringBuilder.reflectionToString(this);
