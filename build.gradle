@@ -22,6 +22,9 @@ repositories {
 dependencies {
 	compile("org.springframework.boot:spring-boot-starter-web")
 	compile("org.springframework.data:spring-data-solr")
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+    compile("org.apache.commons:commons-lang3")
+	testCompile("org.springframework:spring-test")
+	testCompile("org.springframework.boot:spring-boot-test")
+    testCompile("junit:junit")
+    testCompile("org.mockito:mockito-all:1.10.19")
 }

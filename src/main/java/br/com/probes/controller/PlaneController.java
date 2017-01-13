@@ -9,16 +9,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.probes.plane.Plane;
-import br.com.probes.plane.Probe;
-import br.com.probes.plane.position.Direction;
+import br.com.probes.model.Plane;
+import br.com.probes.model.Probe;
+import br.com.probes.model.position.Direction;
 import br.com.probes.service.PlaneService;
+import br.com.probes.service.ProbeService;
 
 @RestController
 public class PlaneController {
 
 	@Autowired
 	private PlaneService planeService;
+	
+	@Autowired
+	private ProbeService probeService;
 
 	@RequestMapping(value = "/plane", method = RequestMethod.PUT)
 	public Plane createPlane(@RequestParam Integer x, @RequestParam Integer y) {
@@ -44,22 +48,42 @@ public class PlaneController {
 
 	@RequestMapping(value = "/plane/{planeId}/probe/{probeId}", method = RequestMethod.GET)
 	public Probe getProbe(@PathVariable String planeId, @PathVariable String probeId) throws Exception {
-		return planeService.getPlane(planeId).getProbe(probeId);
+		return probeService.getProbe(probeId);
 	}
 
 	@RequestMapping(value = "/plane/{planeId}/probe/{probeId}/turnLeft", method = RequestMethod.GET)
 	public void turnLeft(@PathVariable String planeId, @PathVariable String probeId) throws Exception {
-		planeService.getPlane(planeId).turnLeft(probeId);
+		planeService.turnLeft(planeId, probeId);
 	}
 	
 	@RequestMapping(value = "/plane/{planeId}/probe/{probeId}/turnRight", method = RequestMethod.GET)
 	public void turnRight(@PathVariable String planeId, @PathVariable String probeId) throws Exception {
-		planeService.getPlane(planeId).turnRight(probeId);
+		planeService.turnRight(planeId, probeId);
 	}
 
 	@RequestMapping(value = "/plane/{planeId}/probe/{probeId}/move", method = RequestMethod.GET)
 	public void move(@PathVariable String planeId, @PathVariable String probeId) throws Exception {
-		planeService.getPlane(planeId).move(probeId);
+		planeService.move(planeId, probeId);
+	}
+
+	@RequestMapping(value = "/probe/{probeId}", method = RequestMethod.DELETE)
+	public void deleteProbe(@PathVariable String probeId) throws Exception {
+		probeService.deleteProbe(probeId);
+	}
+
+	@RequestMapping(value = "/probe", method = RequestMethod.DELETE)
+	public void deleteAllProbes() throws Exception {
+		probeService.deleteAllProbes();
+	}
+
+	@RequestMapping(value = "/plane/{planeId}", method = RequestMethod.DELETE)
+	public void deletePlane(@PathVariable String planeId) throws Exception {
+		planeService.deletePlane(planeId);
+	}
+
+	@RequestMapping(value = "/plane", method = RequestMethod.DELETE)
+	public void deleteAllPlanes() throws Exception {
+		planeService.deleteAllPlanes();
 	}
 
 }

@@ -1,4 +1,4 @@
-package br.com.probes.plane.position;
+package br.com.probes.model.position;
 
 public enum Direction {
 

@@ -1,16 +1,16 @@
 package br.com.probes.plane;
 
-import static br.com.probes.plane.position.Direction.E;
-import static br.com.probes.plane.position.Direction.N;
-import static br.com.probes.plane.position.Direction.S;
-import static br.com.probes.plane.position.Direction.W;
+import static br.com.probes.model.position.Direction.E;
+import static br.com.probes.model.position.Direction.N;
+import static br.com.probes.model.position.Direction.S;
+import static br.com.probes.model.position.Direction.W;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import br.com.probes.plane.Probe;
-import br.com.probes.plane.position.Point;
+import br.com.probes.model.Probe;
+import br.com.probes.model.position.Point;
 
 public class ProbeTest {
 

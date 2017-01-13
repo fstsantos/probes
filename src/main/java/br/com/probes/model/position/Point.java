@@ -1,8 +1,7 @@
-package br.com.probes.plane.position;
+package br.com.probes.model.position;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class Point {
 
@@ -13,6 +12,12 @@ public class Point {
 	public Point(int x, int y) {
 		this.x = x;
 		this.y = y;
+	}
+
+	public Point(String point) {
+		String[] xy = point.split("_");
+		this.x = Integer.valueOf(xy[0]);
+		this.y = Integer.valueOf(xy[1]);
 	}
 
 	public int getX() {
@@ -54,7 +59,7 @@ public class Point {
 
 	@Override
 	public String toString() {
-	   return ToStringBuilder.reflectionToString(this);
+	   return x + "_" + y;
 	}
 
 }

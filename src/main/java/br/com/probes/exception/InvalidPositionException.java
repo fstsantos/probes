@@ -1,7 +1,6 @@
 package br.com.probes.exception;
 
-import br.com.probes.plane.Probe;
-import br.com.probes.plane.position.Point;
+import br.com.probes.model.position.Point;
 
 public class InvalidPositionException extends Exception {
 	
@@ -11,8 +10,8 @@ public class InvalidPositionException extends Exception {
 		super(point.toString());
 	}
 
-	public InvalidPositionException(Point point, Probe usingProbe) {
-		super(String.format("Position %s is being used by probe id = %s", point, usingProbe.getId()));
+	public InvalidPositionException(Point point, String probeId) {
+		super(String.format("Position %s is being used by probe id = %s", point, probeId));
 	}
 
 }
