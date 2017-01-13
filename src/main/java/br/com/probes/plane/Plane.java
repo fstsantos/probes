@@ -4,14 +4,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.com.probes.exception.InvalidPositionException;
 import br.com.probes.exception.InvalidProbeException;
 import br.com.probes.plane.position.Direction;
 import br.com.probes.plane.position.Point;
+import br.com.probes.solr.ProbeRepository;
+import br.com.probes.solr.document.PlaneDocument;
 
 public class Plane {
 
-	private UUID id = UUID.randomUUID();
+	@Autowired
+	private ProbeRepository probeRepository;
+	
+	private String id = UUID.randomUUID().toString();
 	
 	private Point bottomLimit = new Point(0, 0);
 	
@@ -31,6 +38,12 @@ public class Plane {
 	
 	public Plane(int x, int y) {
 		this.upperLimit = new Point(x, y);
+	}
+	
+	public Plane(PlaneDocument planeDocument) {
+		this.id = planeDocument.getId();
+		this.bottomLimit = new Point(planeDocument.getBottomX(), planeDocument.getBottomY());
+		this.upperLimit = new Point(planeDocument.getUpperX(), planeDocument.getUpperY());
 	}
 	
 	public Probe createProbe(int x, int y, Direction direction) throws InvalidPositionException {
@@ -84,7 +97,7 @@ public class Plane {
 	}
 
 	public Probe getProbe(String probeId) throws InvalidProbeException {
-		Probe probe = probeMap.get(probeId);
+		Probe probe = probeRepository.findById(probeId);
 		
 		if (probe == null) {
 			throw new InvalidProbeException(probeId);
@@ -93,8 +106,16 @@ public class Plane {
 		return probe;
 	}
 
-	public UUID getId() {
+	public String getId() {
 		return id;
+	}
+
+	public Point getBottomLimit() {
+		return bottomLimit;
+	}
+
+	public Point getUpperLimit() {
+		return upperLimit;
 	}
 
 	public Map<String, Probe> getProbeMap() {

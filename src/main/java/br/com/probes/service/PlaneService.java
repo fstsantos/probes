@@ -1,10 +1,10 @@
 package br.com.probes.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -14,27 +14,32 @@ import br.com.probes.exception.InvalidProbeException;
 import br.com.probes.plane.Plane;
 import br.com.probes.plane.Probe;
 import br.com.probes.plane.position.Direction;
+import br.com.probes.solr.PlaneRepository;
+import br.com.probes.solr.document.PlaneDocument;
 
 @Component
 public class PlaneService {
 
-	private Map<String, Plane> planeMap = new HashMap<String, Plane>();
+	@Autowired
+	public PlaneRepository planeRepository;
 
 	public Plane createPlane(@RequestParam Integer x, @RequestParam Integer y) {
 		Plane plane = new Plane(x, y);
-		planeMap.put(plane.getId().toString(), plane);
+		planeRepository.save(new PlaneDocument(plane));
 		return plane;
 	}
 
 	public List<Plane> getPlanes() throws InvalidPlaneException {
-		return new ArrayList<Plane>(planeMap.values());
+		return StreamSupport
+				.stream(planeRepository.findAll().spliterator(), false)
+				.map(p -> new Plane(p)).collect(Collectors.toList());
 	}
 
-	public Plane getPlane(String id) throws InvalidPlaneException {
-		Plane plane = planeMap.get(id);
+	public Plane getPlane(String planeId) throws InvalidPlaneException {
+		Plane plane = planeRepository.findById(planeId);
 
 		if (plane == null) {
-			throw new InvalidPlaneException(id);
+			throw new InvalidPlaneException(planeId);
 		}
 
 		return plane;

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Solr managed schema - automatically generated - DO NOT EDIT -->
+<schema name="plane" version="1.6">
+    <uniqueKey>id</uniqueKey>
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+    <fieldType name="int" class="solr.TrieIntField" positionIncrementGap="0" precisionStep="0"/>
+    <fieldType name="long" class="solr.TrieLongField" positionIncrementGap="0" precisionStep="0"/>
+    <field name="id" type="string" indexed="true" stored="true"/>
+    <field name="bottom_x" type="int" indexed="false" stored="true"/>
+    <field name="bottom_y" type="int" indexed="false" stored="true"/>
+    <field name="upper_x" type="int" indexed="false" stored="true"/>
+    <field name="upper_y" type="int" indexed="false" stored="true"/>
+	<field name="_version_" type="long" indexed="true" stored="true"/>
+</schema>

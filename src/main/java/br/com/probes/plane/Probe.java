@@ -14,7 +14,7 @@ import br.com.probes.plane.position.Point;
 
 public class Probe {
 
-	private UUID id = UUID.randomUUID();
+	private String id = UUID.randomUUID().toString();
 	
 	private Point position;
 	
@@ -90,7 +90,7 @@ public class Probe {
 		return null;
 	}
 
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
 
