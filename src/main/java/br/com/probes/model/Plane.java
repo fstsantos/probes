@@ -5,38 +5,49 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.solr.client.solrj.beans.Field;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.Dynamic;
+import org.springframework.data.solr.core.mapping.Indexed;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 
 import br.com.probes.model.position.Point;
-import br.com.probes.solr.document.PlaneDocument;
 
+@SolrDocument(solrCoreName = "plane")
 public class Plane {
 	
+	@Id
+	@Indexed(name = "id", type = "string")
 	private String id = UUID.randomUUID().toString();
+
+	@Indexed(name = "bottom_x", type = "int")
+	private int bottomX = 0;
+
+	@Indexed(name = "bottom_y", type = "int")
+	private int bottomY = 0;
 	
-	private Point bottomLimit = new Point(0, 0);
+	@Indexed(name = "upper_x", type = "int")
+	private int upperX;
 	
-	private Point upperLimit;
-	
-	private Map<Point, String> positionMap;
+	@Indexed(name = "upper_y", type = "int")
+	private int upperY;
+
+	@Dynamic @Field("*_probe_pos")
+	private Map<String, String> positionMap = new HashMap<String, String>();
 
 	public Plane() {
-		this.upperLimit = new Point(100, 100);
+		this.upperX = 100;
+		this.upperY = 100;
 	}
 	
 	public Plane(Point upperLimit) {
-		this.upperLimit = upperLimit;
+		this.upperX = upperLimit.getX();
+		this.upperY = upperLimit.getY();
 	}
 	
 	public Plane(int x, int y) {
-		this.upperLimit = new Point(x, y);
-	}
-	
-	public Plane(PlaneDocument planeDocument) {
-		this.id = planeDocument.getId();
-		this.bottomLimit = new Point(planeDocument.getBottomX(), planeDocument.getBottomY());
-		this.upperLimit = new Point(planeDocument.getUpperX(), planeDocument.getUpperY());
-		this.positionMap = new HashMap<Point, String>();
-		planeDocument.getPositionMap().entrySet().stream().map(e -> this.positionMap.put(new Point(e.getKey()), e.getValue()));
+		this.upperX = x;
+		this.upperY = y;
 	}
 	
 	public String getId() {
@@ -44,28 +55,25 @@ public class Plane {
 	}
 
 	public Point getBottomLimit() {
-		return bottomLimit;
+		return new Point(bottomX, bottomY);
 	}
 
 	public void setBottomLimit(Point bottomLimit) {
-		this.bottomLimit = bottomLimit;
+		this.bottomX = bottomLimit.getX();
+		this.bottomY = bottomLimit.getY();
 	}
 
 	public Point getUpperLimit() {
-		return upperLimit;
+		return new Point(upperX, upperY);
 	}
 
 	public void setUpperLimit(Point upperLimit) {
-		this.upperLimit = upperLimit;
+		this.upperX = upperLimit.getX();
+		this.upperY = upperLimit.getY();
 	}
 
-	public Map<Point, String> getPositionMap() {
-		if (positionMap == null) positionMap = new HashMap<Point, String>();
+	public Map<String, String> getPositionMap() {
 		return positionMap;
-	}
-
-	public void setPositionMap(Map<Point, String> positionMap) {
-		this.positionMap = positionMap;
 	}
 
 	@Override

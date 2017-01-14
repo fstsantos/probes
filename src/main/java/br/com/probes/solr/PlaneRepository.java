@@ -2,10 +2,10 @@ package br.com.probes.solr;
 
 import org.springframework.data.solr.repository.SolrCrudRepository;
 
-import br.com.probes.solr.document.PlaneDocument;
+import br.com.probes.model.Plane;
 
-public interface PlaneRepository extends SolrCrudRepository<PlaneDocument, String> {
+public interface PlaneRepository extends SolrCrudRepository<Plane, String> {
 
-	PlaneDocument findById(String id);
+	Plane findById(String id);
 	
 }

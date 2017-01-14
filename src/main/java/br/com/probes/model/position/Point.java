@@ -24,26 +24,10 @@ public class Point {
 		return x;
 	}
 
-	public void incX() {
-		this.x++;
-	}
-
-	public void decX() {
-		this.x--;
-	}
-
 	public int getY() {
 		return y;
 	}
 
-	public void incY() {
-		this.y++;
-	}
-	
-	public void decY() {
-		this.y--;
-	}
-	
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(x).append(y).build();

@@ -13,7 +13,6 @@ import br.com.probes.model.Probe;
 import br.com.probes.model.position.Direction;
 import br.com.probes.model.position.Point;
 import br.com.probes.solr.ProbeRepository;
-import br.com.probes.solr.document.ProbeDocument;
 
 @Component
 public class ProbeService {
@@ -24,7 +23,7 @@ public class ProbeService {
 	public Probe createProbe(Point point, Direction direction) {
 
 		Probe probe = new Probe(point, direction);
-		probeRepository.save(new ProbeDocument(probe));
+		probeRepository.save(probe);
 		
 		return probe;
 	}
@@ -38,16 +37,16 @@ public class ProbeService {
 	}
 
 	public Probe getProbe(String probeId) throws InvalidProbeException {
-		ProbeDocument probeDocument = probeRepository.findById(probeId);
+		Probe probe = probeRepository.findById(probeId);
 		
-		if (probeDocument == null) {
+		if (probe == null) {
 			throw new InvalidProbeException(probeId);
 		}
 
-		return new Probe(probeDocument);
+		return probe;
 	}
 
-	protected void turnLeft(String probeId) throws InvalidProbeException {
+	public Probe turnLeft(String probeId) throws InvalidProbeException {
 		Probe probe = getProbe(probeId);
 		
 		switch(probe.getDirection()) {
@@ -64,9 +63,12 @@ public class ProbeService {
 			probe.setDirection(N);
 			break;
 		}
+
+		probeRepository.save(probe);
+		return probe;
 	}
 
-	protected void turnRight(String probeId) throws InvalidProbeException {
+	public Probe turnRight(String probeId) throws InvalidProbeException {
 		Probe probe = getProbe(probeId);
 		
 		switch(probe.getDirection()) {
@@ -83,28 +85,34 @@ public class ProbeService {
 			probe.setDirection(S);
 			break;
 		}
+		
+		probeRepository.save(probe);
+		return probe;
 	}
 	
-	protected void move(String probeId) throws InvalidProbeException {
+	public Probe move(String probeId) throws InvalidProbeException {
 		Probe probe = getProbe(probeId);
 		
 		switch(probe.getDirection()) {
 		case N:
-			probe.getPosition().incY();
+			probe.incY();
 			break;
 		case W:
-			probe.getPosition().decX();
+			probe.decX();
 			break;
 		case S:
-			probe.getPosition().decY();
+			probe.decY();
 			break;
 		case E:
-			probe.getPosition().incX();
+			probe.incX();
 			break;
 		}
+
+		probeRepository.save(probe);
+		return probe;
 	}
 
-	protected Point nextMove(String probeId) throws InvalidProbeException {
+	public Point nextMove(String probeId) throws InvalidProbeException {
 		Probe probe = getProbe(probeId);
 		
 		switch(probe.getDirection()) {
@@ -117,6 +125,7 @@ public class ProbeService {
 		case E:
 			return new Point(probe.getPosition().getX() + 1, probe.getPosition().getY());
 		}
+
 		return null;
 	}
 

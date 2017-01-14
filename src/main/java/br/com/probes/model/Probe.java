@@ -3,27 +3,36 @@ package br.com.probes.model;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.solr.core.mapping.Indexed;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 
 import br.com.probes.model.position.Direction;
 import br.com.probes.model.position.Point;
-import br.com.probes.solr.document.ProbeDocument;
 
+@SolrDocument(solrCoreName = "probe")
 public class Probe {
 
+	@Id
+	@Indexed(name = "id", type = "string")
 	private String id = UUID.randomUUID().toString();
-	
-	private Point position;
-	
-	private Direction direction;
 
-	public Probe(Point position, Direction direction) {
-		this.position = position;
-		this.direction = direction;
+	@Indexed(name = "x", type = "int")
+	private int x;
+	
+	@Indexed(name = "y", type = "int")
+	private int y;
+
+	@Indexed(name = "direction", type = "string")
+	private String direction;
+
+	public Probe() {
 	}
 	
-	public Probe(ProbeDocument probeDocument) {
-		this.position = new Point(probeDocument.getX(), probeDocument.getY());
-		this.direction = Direction.valueOf(probeDocument.getDirection());
+	public Probe(Point position, Direction direction) {
+		this.x = position.getX();
+		this.y = position.getY();
+		this.direction = direction.toString();
 	}
 	
 	public String getId() {
@@ -31,19 +40,31 @@ public class Probe {
 	}
 
 	public Point getPosition() {
-		return position;
+		return new Point(x, y);
 	}
 
-	public void setPosition(Point position) {
-		this.position = position;
+	public void incX() {
+		this.x++;
+	}
+
+	public void decX() {
+		this.x--;
+	}
+
+	public void incY() {
+		this.y++;
+	}
+
+	public void decY() {
+		this.y--;
 	}
 
 	public Direction getDirection() {
-		return direction;
+		return Direction.valueOf(direction);
 	}
 
 	public void setDirection(Direction direction) {
-		this.direction = direction;
+		this.direction = direction.toString();
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class PositionValidator {
 	}
 
 	private void validatePosition(Point point, Plane plane) throws InvalidPositionException {
-		if (plane.getPositionMap().get(point) != null) {
+		if (plane.getPositionMap().get(point.toString()) != null) {
 			throw new InvalidPositionException(point, plane.getPositionMap().get(point));
 		}
 	}

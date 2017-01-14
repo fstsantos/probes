@@ -10,5 +10,6 @@
     <field name="bottom_y" type="int" indexed="false" stored="true"/>
     <field name="upper_x" type="int" indexed="false" stored="true"/>
     <field name="upper_y" type="int" indexed="false" stored="true"/>
-	<field name="_version_" type="long" indexed="true" stored="true"/>
+    <dynamicField name="*_probe_pos" type="string" indexed="true"  stored="true"/>
+    <field name="_version_" type="long" indexed="true" stored="true"/>
 </schema>

@@ -33,8 +33,17 @@ curl -s "http://localhost:8080/plane/$PLANE_ID/probe/$PROBE_2_ID/turnRight"
 curl -s "http://localhost:8080/plane/$PLANE_ID/probe/$PROBE_2_ID/turnRight"
 curl -s "http://localhost:8080/plane/$PLANE_ID/probe/$PROBE_2_ID/move"
 
-echo "Posicao final:"
+echo "Posicao final Sonda 1:"
 
-curl -s "http://localhost:8080/plane/$PLANE_ID"
+curl -s "http://localhost:8080/probe/$PROBE_1_ID"
+
+echo
+echo "Posicao final Sonda 2:"
+
+curl -s "http://localhost:8080/probe/$PROBE_2_ID"
+
+curl -s "http://localhost:8080/probe/$PROBE_1_ID" -X DELETE
+curl -s "http://localhost:8080/probe/$PROBE_2_ID" -X DELETE
+curl -s "http://localhost:8080/plane/$PLANE_ID" -X DELETE
 
 echo

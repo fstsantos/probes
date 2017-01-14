@@ -2,10 +2,10 @@ package br.com.probes.solr;
 
 import org.springframework.data.solr.repository.SolrCrudRepository;
 
-import br.com.probes.solr.document.ProbeDocument;
+import br.com.probes.model.Probe;
 
-public interface ProbeRepository extends SolrCrudRepository<ProbeDocument, String> {
+public interface ProbeRepository extends SolrCrudRepository<Probe, String> {
 
-	ProbeDocument findById(String id);
+	Probe findById(String id);
 	
 }

@@ -16,7 +16,6 @@ import br.com.probes.model.Probe;
 import br.com.probes.model.position.Direction;
 import br.com.probes.model.position.Point;
 import br.com.probes.solr.PlaneRepository;
-import br.com.probes.solr.document.PlaneDocument;
 import br.com.probes.validation.PositionValidator;
 
 @Component
@@ -33,7 +32,7 @@ public class PlaneService {
 
 	public Plane createPlane(@RequestParam Integer x, @RequestParam Integer y) {
 		Plane plane = new Plane(x, y);
-		planeRepository.save(new PlaneDocument(plane));
+		planeRepository.save(plane);
 		return plane;
 	}
 	
@@ -48,17 +47,17 @@ public class PlaneService {
 	public List<Plane> getPlanes() throws InvalidPlaneException {
 		return StreamSupport
 				.stream(planeRepository.findAll().spliterator(), false)
-				.map(p -> new Plane(p)).collect(Collectors.toList());
+				.collect(Collectors.toList());
 	}
 
 	public Plane getPlane(String planeId) throws InvalidPlaneException {
-		PlaneDocument planeDocument = planeRepository.findById(planeId);
+		Plane plane = planeRepository.findById(planeId);
 
-		if (planeDocument == null) {
+		if (plane == null) {
 			throw new InvalidPlaneException(planeId);
 		}
 
-		return new Plane(planeDocument);
+		return plane;
 	}
 
 	public Probe createProbe(String planeId, int x, int y, Direction direction)
@@ -71,25 +70,25 @@ public class PlaneService {
 
 		Probe probe = probeService.createProbe(point, direction);
 
-		plane.getPositionMap().put(point, probe.getId());
+		plane.getPositionMap().put(point.toString(), probe.getId());
 
-		planeRepository.save(new PlaneDocument(plane));
+		planeRepository.save(plane);
 		return probe;
 	}
 
-	public void turnLeft(String planeId, String probeId)
+	public Probe turnLeft(String planeId, String probeId)
 			throws InvalidPlaneException, InvalidProbeException {
 
-		probeService.turnLeft(probeId);
+		return probeService.turnLeft(probeId);
 	}
 
-	public void turnRight(String planeId, String probeId)
+	public Probe turnRight(String planeId, String probeId)
 			throws InvalidPlaneException, InvalidProbeException {
 
-		probeService.turnRight(probeId);
+		return probeService.turnRight(probeId);
 	}
 
-	public void move(String planeId, String probeId)
+	public Probe move(String planeId, String probeId)
 			throws InvalidPlaneException, InvalidProbeException,
 			InvalidPositionException {
 		
@@ -97,9 +96,13 @@ public class PlaneService {
 		Probe probe = probeService.getProbe(probeId);
 		positionValidator.validateMove(probeService.nextMove(probeId), plane);
 
-		plane.getPositionMap().remove(probe.getPosition());
-		probeService.move(probeId);
-		plane.getPositionMap().put(probe.getPosition(), probe.getId());
+		plane.getPositionMap().remove(probe.getPosition().toString());
+		probe = probeService.move(probeId);
+		plane.getPositionMap().put(probe.getPosition().toString(), probe.getId());
+		
+		planeRepository.save(plane);
+		
+		return probe;
 	}
 
 }
