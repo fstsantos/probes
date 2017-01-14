@@ -37,7 +37,7 @@ public class ProbeService {
 	}
 
 	public Probe getProbe(String probeId) throws InvalidProbeException {
-		Probe probe = probeRepository.findById(probeId);
+		Probe probe = probeRepository.findOne(probeId);
 		
 		if (probe == null) {
 			throw new InvalidProbeException(probeId);

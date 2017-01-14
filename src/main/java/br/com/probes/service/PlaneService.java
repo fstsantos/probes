@@ -51,7 +51,7 @@ public class PlaneService {
 	}
 
 	public Plane getPlane(String planeId) throws InvalidPlaneException {
-		Plane plane = planeRepository.findById(planeId);
+		Plane plane = planeRepository.findOne(planeId);
 
 		if (plane == null) {
 			throw new InvalidPlaneException(planeId);
