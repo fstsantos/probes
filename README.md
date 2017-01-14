@@ -3,7 +3,9 @@
 * **Criar planalto**
 
   URL: /plane
+
   Método: PUT
+
   Retorno: JSON do planalto
 
 * Consultar todos planaltos
