@@ -1,6 +1,5 @@
 **API Rest para simulação de um conjunto de sondas em um planalto:**
 
-```
 * Criar planalto
 URL: /plane
 Método: PUT
@@ -65,8 +64,6 @@ Retorno: Vazio
 URL: /probe
 Método: DELETE
 Retorno: Vazio
-
-```
 
 **Arquivos de configuração do Solr 6.3.0:** ./solr/
 **Teste da API:** ./src/test/scripts/rest-test.sh
