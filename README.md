@@ -29,7 +29,7 @@
 * **Criar sonda**
   * URL: /plane/{planeId}/probe?x=0&y=0&direction=N
   * Método: PUT
-  * Retorno: Sonda criada
+  * Retorno: JSON da sonda criada
 
 * **Virar sonda para esquerda**
   * URL: /plane/{planeId}/probe/{probeId}/turnLeft
@@ -43,11 +43,6 @@
 
 * **Mover sonda**
   * URL: /plane/{planeId}/probe/{probeId}/move
-  * Método: GET
-  * Retorno: Vazio
-
-* **Virar sonda para esquerda**
-  * URL: /plane/{planeId}/probe/{probeId}/turnLeft
   * Método: GET
   * Retorno: Vazio
 
